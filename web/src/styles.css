@@ -1,0 +1,227 @@
+/* TBMusic 全局样式:深色主题(默认)/ 浡览色主题,类 lx-music 风格 */
+:root {
+  --bg: #16161c;
+  --bg-soft: #1d1d26;
+  --panel: #22222c;
+  --panel-hover: #2a2a36;
+  --text: #f0f0f5;
+  --text-dim: #9a9aad;
+  --danger: #ff5a6a;
+  --heart: #ff4d6d;
+  --border: rgba(255, 255, 255, 0.08);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --player-height: 72px;
+  /* 主题色默认黄色,由 data-accent 切换 */
+  --accent: #ff9642;
+  --accent-2: #ffc857;
+  --accent-contrast: #3a2708;
+  --accent-soft: rgba(255, 150, 66, 0.15);
+  --accent-grad: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+/* 五种主题色(深色主题) */
+[data-accent='blue']   { --accent: #3d8bff; --accent-2: #62c7ff; --accent-contrast: #07182e; --accent-soft: rgba(61, 139, 255, 0.15); }
+[data-accent='yellow'] { --accent: #ff9642; --accent-2: #ffc857; --accent-contrast: #3a2708; --accent-soft: rgba(255, 150, 66, 0.15); }
+[data-accent='green']  { --accent: #2ecf8f; --accent-2: #7de3b0; --accent-contrast: #06281b; --accent-soft: rgba(46, 207, 143, 0.15); }
+[data-accent='purple'] { --accent: #a06bff; --accent-2: #d09bff; --accent-contrast: #ffffff; --accent-soft: rgba(160, 107, 255, 0.15); }
+[data-accent='red']    { --accent: #ff5f6d; --accent-2: #ff9a8b; --accent-contrast: #ffffff; --accent-soft: rgba(255, 95, 109, 0.15); }
+
+[data-theme='light'] {
+  --bg: #f5f6fa;
+  --bg-soft: #eef0f6;
+  --panel: #ffffff;
+  --panel-hover: #f0f2f8;
+  --text: #22242c;
+  --text-dim: #6b6f80;
+  --border: rgba(0, 0, 0, 0.08);
+  --shadow: 0 8px 28px rgba(30, 40, 80, 0.12);
+  --accent-contrast: #2a1d05;
+}
+[data-theme='light'][data-accent='blue']   { --accent: #2f7ae8; --accent-2: #54b3f5; --accent-contrast: #fff; --accent-soft: rgba(47, 122, 232, 0.12); }
+[data-theme='light'][data-accent='yellow'] { --accent: #f5822b; --accent-2: #f7b73e; --accent-soft: rgba(245, 130, 43, 0.12); }
+[data-theme='light'][data-accent='green']  { --accent: #1eb379; --accent-2: #5cd6a3; --accent-contrast: #fff; --accent-soft: rgba(30, 179, 121, 0.12); }
+[data-theme='light'][data-accent='purple'] { --accent: #8a52f0; --accent-2: #b88cf7; --accent-soft: rgba(138, 82, 240, 0.12); }
+[data-theme='light'][data-accent='red']    { --accent: #e8474f; --accent-2: #ff8a7a; --accent-soft: rgba(232, 71, 79, 0.12); }
+
+* { box-sizing: border-box; }
+
+html {
+  /* canvas 底色(全滚动区域),正文背景交给 AmbientBackground 绘制 */
+  background: var(--bg);
+}
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  /* 必须透明:body 的不透明背景会盖住负 z-index 的全站背景(首屏变黑) */
+  background: transparent;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app { height: 100%; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(128, 128, 150, 0.35); border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+button {
+  touch-action: manipulation;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input {
+  font-family: inherit;
+  outline: none;
+}
+
+/* 通用按钮 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-size: 14px;
+  transition: all 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.btn:hover { background: var(--panel-hover); }
+.btn.primary {
+  background: var(--accent-grad);
+  border-color: transparent;
+  color: var(--accent-contrast);
+  font-weight: 600;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.btn.primary:hover { filter: brightness(1.06); box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 45%, transparent); }
+.btn.danger { color: var(--danger); }
+.btn.danger:hover { background: rgba(255, 90, 106, 0.1); }
+.btn.small { padding: 4px 12px; font-size: 12px; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--text-dim);
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.icon-btn:hover { color: var(--text); background: var(--panel-hover); }
+/* 请求进行中:变淡且不再接收点击(收藏/拉黑防连点) */
+.icon-btn.busy { opacity: 0.5; pointer-events: none; }
+/* svg 块级化,消除行内基线导致的偏移 */
+.icon-btn svg, .btn svg { display: block; }
+
+/* 数量小徽标 */
+.count-chip {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 2px 10px;
+  margin-left: 8px;
+  vertical-align: 2px;
+}
+
+/* 输入框 */
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 14px;
+  transition: border 0.15s;
+}
+.input:focus { border-color: var(--accent); }
+
+/* 磨砂玻璃卡片:内容区与全站背景隔开 */
+.glass-card {
+  background: color-mix(in srgb, var(--panel) 62%, transparent);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+
+/* 页面容器 */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 20px calc(var(--player-height) + env(safe-area-inset-bottom, 0px) + 24px);
+}
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 8px 0 16px;
+}
+
+/* 空状态 */
+.empty {
+  text-align: center;
+  color: var(--text-dim);
+  padding: 48px 0;
+  font-size: 14px;
+}
+
+/* Toast */
+.toast-wrap {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  background: rgba(30, 30, 40, 0.95);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  box-shadow: var(--shadow);
+  animation: toast-in 0.2s ease;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 骨架/加载 */
+.loading-line {
+  text-align: center;
+  color: var(--text-dim);
+  padding: 18px 0;
+  font-size: 13px;
+}
+
+a { color: var(--accent); text-decoration: none; }
+
+/* 移动端调整 */
+@media (max-width: 768px) {
+  .page { padding: 14px 14px calc(var(--player-height) + 56px + env(safe-area-inset-bottom, 0px) + 16px); }
+  .page-title { font-size: 19px; }
+  .btn { padding: 7px 14px; }
+}

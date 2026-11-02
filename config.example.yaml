@@ -1,0 +1,49 @@
+server:
+  addr: "0.0.0.0:8080"
+  # 可信反向代理网段(CIDR)。放在 Nginx/Caddy 后面时填代理所在网段,
+  # 例如 ["127.0.0.1/32"],否则所有请求都会被当作来自代理 IP 而互相误伤限流。
+  trustedProxies: []
+
+# 采集接口(自定义音源脚本),依序优先,可配置多个
+source:
+  timeout: 15s
+  scripts: [] # 不预置音源地址，请在系统设置中自行添加
+
+# 音频代理域名白名单:仅转发这些域名的直链,防止本站被当作开放代理。
+# 支持 *.example.com 通配所有子域名;单条 "*" 表示放开全部(不推荐)。
+# 可在「系统设置 - 音频域名白名单」中逐条增删,会自动写回本文件。
+stream:
+  allowHosts:
+    - "*.kuwo.cn"
+    - "*.kugou.com"
+    - "*.kgimg.com"
+    - "*.qq.com"
+    - "*.gtimg.cn"
+    - "*.126.net"
+    - "*.127.net"
+    - "*.migu.cn"
+    - "*.migucloud.com"
+
+database:
+  path: "./data/tbmusic.db"
+
+session:
+  days: 30
+
+auth:
+  allowRegister: true
+
+# 五类数据共用磁盘缓存,默认 3 GiB,按命中次数 LFU 淘汰,不缓存音频文件。
+cache:
+  sizeMB: 3072 # 可在系统设置中调整,单位 MB(1 MB = 1024² 字节)
+  # dir 默认是数据库同目录下的 cache 子目录
+  urlTTL: 20m
+  searchTTL: 10m
+  detailTTL: 30m
+  lyricTTL: 24h
+  coverTTL: 168h
+
+# 注册邀请码(可选):开启后前台注册需填写正确邀请码
+# auth:
+#   inviteRequired: false
+#   inviteCode: ""
